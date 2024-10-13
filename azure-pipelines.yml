@@ -23,8 +23,12 @@ steps:
 
 # Sync the code from Azure DevOps to GitHub repository
 - script: |
-    git remote set-url https://github.com/ANAND9963/html-css-js-portofolio.git
+    git remote set-url github https://$(gitUser):$(gitToken)@github.com/ANAND9963/html-css-js-portofolio.git
     git fetch github main
     git pull github main 
     git push github main
   displayName: 'Sync to GitHub'
+env:
+    gitUser: $(gitUser)  # GitHub username, passed as a pipeline variable
+    gitToken: $(gitToken)  # GitHub PAT (personal access token), passed as a secret variable
+  workingDirectory: $(Build.SourcesDirectory)  # Run git commands in the checked-out repository directory
