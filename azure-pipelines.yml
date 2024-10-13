@@ -11,11 +11,15 @@ steps:
 # Archive the static HTML project files
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(build.sourcesDirectory)'
+    rootFolderOrFile: '$(Build.SourcesDirectory)'
     includeRootFolder: false
 
 # Publish the archived files as build artifacts
 - task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'html-artifacts'
+    publishLocation: 'Container'
 
 # Sync the code from Azure DevOps to GitHub repository
 - script: |
