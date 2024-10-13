@@ -4,21 +4,32 @@
 # https://aka.ms/yaml
 
 trigger:
-<<<<<<< HEAD
-- preview
-
-pool:
-  name: default
-=======
 - main
 
 pool:
   name: Default
->>>>>>> fac18e58d6f9c4725a3bc573406777265a296540
 
 steps:
+# Checkout the source code from the Azure DevOps repository
+- checkout: self
+
+# Archive the static HTML project files
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(build.sourcesDirectory)'
+    rootFolderOrFile: '$(Build.SourcesDirectory)'
     includeRootFolder: false
+
+# Publish the archived files as build artifacts
 - task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'html-artifacts'
+    publishLocation: 'Container'
+
+# Sync the code from Azure DevOps to GitHub repository
+- script: |
+    git remote add github https://github.com/ANAND9963/html-css-js-portofolio.git
+    git fetch github main
+    git pull github main --rebase  # Option to rebase to avoid conflicts
+    git push github main
+  displayName: 'Sync to GitHub'
