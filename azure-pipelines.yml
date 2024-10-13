@@ -24,6 +24,7 @@ steps:
 # Sync the code from Azure DevOps to GitHub repository
 - script: |
     git remote add github https://github.com/ANAND9963/html-css-js-portofolio.git
-    git pull github main --allow-unrelated-histories
+    git fetch github main
+    git pull github main --rebase  # Option to rebase to avoid conflicts
     git push github main
   displayName: 'Sync to GitHub'
