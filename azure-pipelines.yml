@@ -1,8 +1,3 @@
-# HTML
-# Archive your static HTML project and save it with the build record.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - preview
 
@@ -10,13 +5,19 @@ pool:
   name: default
 
 steps:
+# Checkout the source code from the Azure DevOps repository
+- checkout: self
+
+# Archive the static HTML project files
 - task: ArchiveFiles@2
--checkout: self
   inputs:
     rootFolderOrFile: '$(build.sourcesDirectory)'
     includeRootFolder: false
+
+# Publish the archived files as build artifacts
 - task: PublishBuildArtifacts@1
 
+# Sync the code from Azure DevOps to GitHub repository
 - script: |
     git remote add github https://github.com/ANAND9963/html-css-js-portofolio.git
     git pull github main --allow-unrelated-histories
