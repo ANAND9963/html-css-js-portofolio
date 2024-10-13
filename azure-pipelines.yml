@@ -15,6 +15,7 @@ steps:
 
 # Archive the static HTML project files
 - task: ArchiveFiles@2
+-checkout: self
   inputs:
     rootFolderOrFile: '$(Build.SourcesDirectory)'
     includeRootFolder: false
