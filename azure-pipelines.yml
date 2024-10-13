@@ -4,17 +4,10 @@
 # https://aka.ms/yaml
 
 trigger:
-<<<<<<< HEAD
-- preview
-
-pool:
-  name: default
-=======
 - main
 
 pool:
   name: Default
->>>>>>> fac18e58d6f9c4725a3bc573406777265a296540
 
 steps:
 - task: ArchiveFiles@2
