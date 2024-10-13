@@ -1,8 +1,8 @@
 trigger:
-- main
+  - main
 
 pool:
-  name: Default
+  name: 'Default'
 
 steps:
 # Checkout the source code from the Azure DevOps repository
@@ -28,7 +28,7 @@ steps:
     git pull github main 
     git push github main
   displayName: 'Sync to GitHub'
-env:
+  env:
     gitUser: $(gitUser)  # GitHub username, passed as a pipeline variable
     gitToken: $(gitToken)  # GitHub PAT (personal access token), passed as a secret variable
   workingDirectory: $(Build.SourcesDirectory)  # Run git commands in the checked-out repository directory
