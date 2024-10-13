@@ -11,7 +11,14 @@ pool:
 
 steps:
 - task: ArchiveFiles@2
+-checkout: self
   inputs:
     rootFolderOrFile: '$(build.sourcesDirectory)'
     includeRootFolder: false
 - task: PublishBuildArtifacts@1
+
+- script: |
+    git remote add github https://github.com/ANAND9963/html-css-js-portofolio.git
+    git pull github main --allow-unrelated-histories
+    git push github main
+  displayName: 'Sync to GitHub'
