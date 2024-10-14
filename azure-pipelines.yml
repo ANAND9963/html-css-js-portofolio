@@ -31,4 +31,4 @@ steps:
   env:
     gitUser: $(gitUser)  # GitHub username, passed as a pipeline variable
     gitToken: $(gitToken)  # GitHub PAT (personal access token), passed as a secret variable
-  workingDirectory: $(Build.SourcesDirectory)  # Run git commands in the checked-out repository directory
+  
