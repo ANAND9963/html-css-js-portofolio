@@ -1,8 +1,11 @@
 trigger:
-- main
+  - main
 
 pool:
-  name: Default
+  name: 'Default'
+
+variables:
+  - group: main
 
 steps:
 # Checkout the source code from the Azure DevOps repository
@@ -13,6 +16,9 @@ steps:
   inputs:
     rootFolderOrFile: '$(Build.SourcesDirectory)'
     includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/html-artifacts.zip'
+    replaceExistingArchive: true
 
 # Publish the archived files as build artifacts
 - task: PublishBuildArtifacts@1
@@ -23,8 +29,12 @@ steps:
 
 # Sync the code from Azure DevOps to GitHub repository
 - script: |
-    git remote set-url https://github.com/ANAND9963/html-css-js-portofolio.git
-    git fetch github main
-    git pull github main 
-    git push github main
+    git remote set-url origin https://$(gitUser):$(gitToken)@github.com/ANAND9963/html-css-js-portofolio.git
+    git fetch origin main
+    git checkout main || git checkout -b main
+    git pull origin main --rebase
+    git push origin main || echo "Push to GitHub failed."
   displayName: 'Sync to GitHub'
+  env:
+    gitUser: $(gitUser)  # GitHub username, passed as a pipeline variable
+    gitToken: $(gitToken)  # GitHub PAT (personal access token), passed as a secret variable
