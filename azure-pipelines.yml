@@ -4,6 +4,9 @@ trigger:
 pool:
   name: 'Default'
 
+variables:
+  - group: main
+
 steps:
 # Checkout the source code from the Azure DevOps repository
 - checkout: self
