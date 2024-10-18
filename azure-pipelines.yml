@@ -13,6 +13,9 @@ steps:
   inputs:
     rootFolderOrFile: '$(Build.SourcesDirectory)'
     includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/html-artifacts.zip'
+    replaceExistingArchive: true
 
 # Publish the archived files as build artifacts
 - task: PublishBuildArtifacts@1
@@ -23,21 +26,12 @@ steps:
 
 # Sync the code from Azure DevOps to GitHub repository
 - script: |
-      # Set the remote URL to the GitHub repository
-      git remote set-url origin https://$(gitUser):$(gitToken)@github.com/ANAND9963/html-css-js-portofolio.git
-      
-      # Fetch the main branch from the GitHub repository
-      git fetch origin main
-      
-      # Check if the main branch exists locally, if not, create it
-      git checkout main || git checkout -b main
-      
-      # Pull the latest changes from the remote main branch
-      git pull origin main --rebase
-      
-      # Push any new changes back to the remote repository
-      git push origin main || echo "Push to GitHub failed."
-    displayName: 'Sync to GitHub'
-    env:
-      gitUser: $(gitUser)  # GitHub username
-      gitToken: $(gitToken)  # GitHub personal access token
+    git remote set-url origin https://$(gitUser):$(gitToken)@github.com/ANAND9963/html-css-js-portofolio.git
+    git fetch origin main
+    git checkout main || git checkout -b main
+    git pull origin main --rebase
+    git push origin main || echo "Push to GitHub failed."
+  displayName: 'Sync to GitHub'
+  env:
+    gitUser: $(gitUser)  # GitHub username, passed as a pipeline variable
+    gitToken: $(gitToken)  # GitHub PAT (personal access token), passed as a secret variable
