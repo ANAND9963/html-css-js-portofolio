@@ -29,11 +29,35 @@ steps:
 
 # Sync the code from Azure DevOps to GitHub repository
 - script: |
+    echo "Setting up remote URL..."
     git remote set-url origin https://$(gitUser):$(gitToken)@github.com/ANAND9963/html-css-js-portofolio.git
+    
+    echo "Fetching from GitHub..."
     git fetch origin main
+    
+    echo "Checking out main branch..."
     git checkout main || git checkout -b main
-    git pull origin main --rebase
-    git push origin main || echo "Push to GitHub failed."
+    
+    echo "Pulling latest changes..."
+    git pull origin main
+    
+    echo "Listing files in the source directory..."
+    ls -la $(Build.SourcesDirectory)
+    
+    echo "Checking for file changes..."
+    git status
+    
+    echo "Adding all changes..."
+    git add --all
+    
+    echo "Checking for changes to commit..."
+    git status
+    
+    echo "Committing changes..."
+    git commit -m "Recent updates" || echo "No changes to commit"
+    
+    echo "Pushing changes to GitHub..."
+    git push origin main || echo "Push to GitHub failed"
   displayName: 'Sync to GitHub'
   env:
     gitUser: $(gitUser)  # GitHub username, passed as a pipeline variable
