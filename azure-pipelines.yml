@@ -33,6 +33,8 @@ steps:
     git fetch origin main
     git checkout main || git checkout -b main
     git pull origin main 
+    git add .
+    git commit -m "recent updates"
     git push origin main || echo "Push to GitHub failed."
   displayName: 'Sync to GitHub'
   env:
